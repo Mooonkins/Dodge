@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
-    public float moveSpd = 8f;
+    public float moveSpd = 8f;    
     
     void Start()
     {
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Die()
     {
-        gameObject.SetActive(false);
+        /*gameObject.SetActive(false);*/
+        Destroy(gameObject);
     }
-
 }
