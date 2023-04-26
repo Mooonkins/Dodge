@@ -21,8 +21,6 @@ public class BulletSpawner : MonoBehaviour
 
         /*target = FindObjectOfType<PlayerController>().transform;*/
         target = GameObject.FindGameObjectWithTag("Player").transform;
-
-
     }
 
     void Update()
