@@ -27,5 +27,11 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         gameObject.SetActive(false);
+        
+        /*Camera.main.GetComponent<GameManager>(); //another way 1*/
+
+        GameManager gameManager = FindObjectOfType<GameManager>(); //another way 2?
+        
+        gameManager.EndGame();
     }
 }

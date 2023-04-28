@@ -20,7 +20,7 @@ public class Test : MonoBehaviour
     }
     IEnumerator EnableCube()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(1f);
         gameObjects[pivot++].SetActive(true);
         if (pivot == 500) pivot = 0;
         StartCoroutine("EnableCube");
