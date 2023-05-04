@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Test1 : MonoBehaviour
 {
-    public GameObject cubeObject;
+    /*chase a player*/
+    private GameObject cubeObject;
     private Vector3 direction;
-    private Rigidbody cubeRgd;
+    public Rigidbody cubeRgd;
     public float moveSpd = 4f;
+    public float bulletSrvTime = 1.0f;
     Transform target;
     private void OnEnable()
     {
@@ -17,21 +19,33 @@ public class Test1 : MonoBehaviour
     }
     void Start()
     {
-        target = FindObjectOfType<PlayerController>().transform;
-        /*PlayerController playerController = GetComponent<PlayerController>();*/
+        target = FindObjectOfType<PlayerController>().transform;        
         
         /*direction = new Vector3(Random.Range(0.1f, 0.1f),0f);*/
+        cubeRgd.velocity = transform.forward * moveSpd;
         StartCoroutine("DisableObject");
     }
     private void FixedUpdate()
     {
-        cubeRgd.velocity = transform.forward * moveSpd;
         /*transform.position += direction;*/
         cubeObject.transform.LookAt(target);
     }
     IEnumerator DisableObject()
+    {        
+        yield return new WaitForSeconds(bulletSrvTime);
+        gameObject.SetActive(false);        
+    }
+
+    void OnTriggerEnter(Collider other)
     {
-        yield return new WaitForSeconds(1.0f);
-        gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            PlayerController playerController = other.GetComponent<PlayerController>();
+            
+            if (playerController != null)
+            {               
+                playerController.Die();                
+            }
+        }
     }
 }
