@@ -4,47 +4,77 @@ using UnityEngine;
 
 public class Test1 : MonoBehaviour
 {
-    /*chase a player*/
-    private GameObject cubeObject;
-    private Vector3 direction;
-    public Rigidbody cubeRgd;
-    public float moveSpd = 4f;
-    public float bulletSrvTime = 1.0f;
+    //bullet
+    public GameObject cubeObject;
+    public GameObject bulletPrefab;
+    public float bltFireRateMin = 1f;
+    public float bltFireRateMax = 3f;
+    public float moveSpd = 10f;
+    
+    private Rigidbody cubeRgd;
+    private float spawnRate = 0f;
+    private float timeAfterSpawn;
+
+    private GameManager gameManager;
+
     Transform target;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
     private void OnEnable()
     {
-        cubeRgd = GetComponent<Rigidbody>();
-        transform.position = new Vector3(0, 1, 0);
         StartCoroutine("DisableObject");
     }
     void Start()
-    {
-        target = FindObjectOfType<PlayerController>().transform;        
-        
-        /*direction = new Vector3(Random.Range(0.1f, 0.1f),0f);*/
-        cubeRgd.velocity = transform.forward * moveSpd;
+    {        
+        cubeRgd = GetComponent<Rigidbody>();
+
+        if (!gameManager.isGameOver)
+        {
+            timeAfterSpawn = 0f;
+            spawnRate = Random.Range(bltFireRateMin, bltFireRateMax);
+            target = FindObjectOfType<PlayerController>().transform;
+        }
+
         StartCoroutine("DisableObject");
     }
-    private void FixedUpdate()
-    {
-        /*transform.position += direction;*/
+    void Update()
+    {        
+        cubeRgd.velocity = transform.forward * moveSpd;
         cubeObject.transform.LookAt(target);
+        /*transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpd * Time.deltaTime);*/
+        
+        timeAfterSpawn += Time.deltaTime;
+        
+        timeAfterSpawn = 0f;
+
+        if (timeAfterSpawn >= spawnRate)
+        {
+            GameObject gameObject = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            gameObject.transform.LookAt(target);
+            spawnRate = Random.Range(bltFireRateMin, bltFireRateMax);
+        }
     }
+    
     IEnumerator DisableObject()
     {        
-        yield return new WaitForSeconds(bulletSrvTime);
-        gameObject.SetActive(false);        
+        yield return new WaitForSeconds(2.0f);
+        gameObject.SetActive(false);
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
-            
+            TestSpawner testSpawner = other.GetComponent<TestSpawner>();
             if (playerController != null)
-            {               
-                playerController.Die();                
+            {
+                playerController.Die();
+                gameObject.SetActive(false);                
             }
         }
     }

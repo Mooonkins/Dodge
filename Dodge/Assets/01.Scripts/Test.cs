@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    //bullet creator
     public GameObject CubeObject;
-    public GameObject[] gameObjects;
-    public int Cube = 100;
+    public GameObject[] gameObjects;    
+
+    private Transform target;
+
     private int pivot = 0;
+
     void Start()
     {
-        gameObjects = new GameObject[Cube];
-        for(int i = 0; i < Cube; i++)
+        gameObjects = new GameObject[50];
+        for (int i = 0; i < 50; i++)
         {
             GameObject gameObject = Instantiate(CubeObject);
             gameObjects[i] = gameObject;
-            gameObject.SetActive(false);
+            gameObject.SetActive(false);            
         }
         StartCoroutine("EnableCube");
     }
     IEnumerator EnableCube()
-    {        
-        yield return new WaitForSeconds(4f);
+    {
+        yield return new WaitForSeconds(2f);
         gameObjects[pivot++].SetActive(true);
-        if (pivot == Cube) pivot = 0;
+        if (pivot == 50) pivot = 0;
+        /*target = FindGameObjectWithTag("Player").transform;
+        target.transform.LookAt(target);*/
         StartCoroutine("EnableCube");
     }
 }

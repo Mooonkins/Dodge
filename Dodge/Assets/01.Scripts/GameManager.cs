@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public Text timeText;
 
     private float surviveTime;
-    private bool isGameOver;
+    public bool isGameOver;
 
     void Start()
     {
