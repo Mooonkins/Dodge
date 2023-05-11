@@ -4,31 +4,46 @@ using UnityEngine;
 
 public class TestSpawner : MonoBehaviour
 {
-    GameManager gameManager;
-    Transform target;
+    private GameManager gameManager;
     public GameObject bulletPrefab;    
-    public float timeAfterSpawn;
-    public float spawnRate;
+    private float timeAfterSpawn;
+    private float spawnRate;
+     Transform target;
+    
     void Start()
     {
+        //gameManager = GetComponent<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
+      
         if (!gameManager.isGameOver)
         {
-            gameManager = GetComponent<GameManager>();
             timeAfterSpawn = 0f;
-            spawnRate = Random.Range(1f, 3f);
-            target = GetComponent<PlayerController>().transform;
-        }
+            spawnRate = Random.Range(1f, 2f);
+            target = FindObjectOfType<PlayerController>().transform;      
+           
+        }      
+        /*timeAfterSpawn = 0f;
+        spawnRate = Random.Range(1f, 3f);
+        target = GetComponent<PlayerController>().transform;*/
+
     }
-    
+
     void Update()
     {
-        timeAfterSpawn = 0f;
+      
         timeAfterSpawn += Time.deltaTime;
-        if(timeAfterSpawn >= spawnRate)
+        
+        if (timeAfterSpawn >= spawnRate)
         {
+            timeAfterSpawn = 0f;
             GameObject gameObject = Instantiate(bulletPrefab, transform.position, transform.rotation);
             gameObject.transform.LookAt(target);
-            spawnRate = Random.Range(1f, 3f);
+            spawnRate = Random.Range(1f, 2f);
+            
+           
         }
+       
+
     }
+    
 }

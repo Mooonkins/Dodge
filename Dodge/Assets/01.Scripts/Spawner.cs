@@ -5,8 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {    
     public GameObject CubeObject;
-    public GameObject[] gameObjects;
-        
+    public GameObject[] gameObjects;    
     public float fireRateMin = 1f;
     public float fireRateMax = 3f;
 

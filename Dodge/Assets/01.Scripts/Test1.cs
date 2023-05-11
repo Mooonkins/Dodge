@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Test1 : MonoBehaviour
 {
-    //bullet
+    /****Cube bullet****/
     public GameObject cubeObject;
     public GameObject bulletPrefab;
     public float bltFireRateMin = 1f;
@@ -21,6 +21,7 @@ public class Test1 : MonoBehaviour
 
     private void Awake()
     {
+        cubeRgd = GetComponent<Rigidbody>();
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -29,9 +30,7 @@ public class Test1 : MonoBehaviour
         StartCoroutine("DisableObject");
     }
     void Start()
-    {        
-        cubeRgd = GetComponent<Rigidbody>();
-
+    {
         if (!gameManager.isGameOver)
         {
             timeAfterSpawn = 0f;
@@ -57,6 +56,7 @@ public class Test1 : MonoBehaviour
             gameObject.transform.LookAt(target);
             spawnRate = Random.Range(bltFireRateMin, bltFireRateMax);
         }
+
     }
     
     IEnumerator DisableObject()
@@ -71,10 +71,12 @@ public class Test1 : MonoBehaviour
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
             TestSpawner testSpawner = other.GetComponent<TestSpawner>();
+
             if (playerController != null)
             {
                 playerController.Die();
-                gameObject.SetActive(false);                
+                
+               // testSpawner.gameObject.SetActive(false);
             }
         }
     }

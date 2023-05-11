@@ -29,13 +29,19 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene("SampleScene");
+                Time.timeScale = 1f;
             }
         }
     }
 
     public void EndGame()
     {
+        //Time.timeScale = 0f;
         isGameOver = true;
+        //Test
+        /*TestSpawner tr = GetComponent<TestSpawner>();
+        tr.target = null;*/
+
 
         gameOverText.SetActive(true);
 

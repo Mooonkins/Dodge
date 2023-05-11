@@ -27,10 +27,9 @@ public class BulletSpawner : MonoBehaviour
     {
         timeAfterSpawn += Time.deltaTime;
 
-        timeAfterSpawn = 0f;
-
         if (timeAfterSpawn >= spawnRate)
         {
+            timeAfterSpawn = 0f;
             GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
 
             bullet.transform.LookAt(target);

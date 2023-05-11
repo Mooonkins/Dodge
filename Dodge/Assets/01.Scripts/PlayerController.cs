@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Die()
     {
+        Time.timeScale = 0f;
         gameObject.SetActive(false);
         
         /*Camera.main.GetComponent<GameManager>(); //another way 1*/
